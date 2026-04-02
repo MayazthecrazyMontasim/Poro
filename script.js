@@ -76,20 +76,33 @@ function readAndOpenBook(file) {
 
 // --- THE 3D PHYSICS ENGINE ---
 
+// --- THE 3D PHYSICS ENGINE (WITH UX UPGRADES) ---
+
 async function loadBookFromMemory(pdfData) {
-    // Tell PDF.js to open the DNA data directly, bypassing the network entirely!
+    const loader = document.getElementById('loader');
+    const loaderText = document.getElementById('loader-text');
+    const bookContainer = document.getElementById('book');
+    const desk = document.getElementById('desk');
+    
+    // Unhide the desk, but show the UX loader first!
+    loader.style.opacity = '1';
+    loader.classList.remove('hidden');
+    bookContainer.classList.add('hidden'); // Keep the book hidden while it is built
+    
+    // Open the PDF DNA
     const loadingTask = pdfjsLib.getDocument({data: pdfData});
     const pdf = await loadingTask.promise;
-    
     const totalPages = pdf.numPages;
 
-    // Reset the wooden desk (in case they want to upload a 2nd book later)
-    bookContainer.innerHTML = '';
+    bookContainer.innerHTML = ''; // Reset desk
 
     // Loop through every single page
     for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+        // UX Enhancement: Update the UI so the user isn't staring at a frozen screen!
+        loaderText.innerText = `📖 Painting page ${pageNum} / ${totalPages} from memory...`;
+        
         const page = await pdf.getPage(pageNum);
-        const viewport = page.getViewport({ scale: 1.5 }); 
+        const viewport = page.getViewport({ scale: 1.5 }); // High-def scan
 
         const pageDiv = document.createElement('div');
         pageDiv.className = 'page';
@@ -107,6 +120,33 @@ async function loadBookFromMemory(pdfData) {
         pageDiv.appendChild(canvas);
         bookContainer.appendChild(pageDiv);
     }
+
+    loaderText.innerText = "✨ Binding the pages together in 3D...";
+
+    // Activate the 3D Physics Engine!
+    const pageFlip = new St.PageFlip(bookContainer, {
+        width: 450, 
+        height: 600, 
+        size: "fixed", // FIX: Force exact physics measurements
+        showCover: true, 
+        usePortrait: false 
+    });
+
+    pageFlip.loadFromHTML(document.querySelectorAll('.page'));
+
+    // Senses
+    pageFlip.on('flip', (e) => {
+        flipSound.currentTime = 0; 
+        flipSound.play(); 
+    });
+
+    // UX Enhancement: Smoothly hide the loader and reveal the finished book!
+    loader.style.opacity = '0';
+    setTimeout(() => {
+        loader.classList.add('hidden');
+        bookContainer.classList.remove('hidden');
+    }, 500);
+}
 
     // Activate the 3D Physics Engine!
     const pageFlip = new St.PageFlip(bookContainer, {
