@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vintage PDF Reader</title>
+    
+    <!-- 1. Link to our Custom Vintage Paint (CSS) -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- 2. The Translator: PDF.js (Reads the PDF file) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    
+    <!-- 3. The Physics Engine: StPageFlip (Handles the 3D flipping math) -->
+    <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+</head>
+<body>
+
+    <!-- This is the wooden desk our book sits on -->
+    <div class="desk">
+        
+        <!-- This is the actual Book object. -->
+        <div id="book" class="book">
+            <!-- JavaScript will magically draw our PDF pages in here! -->
+        </div>
+
+    </div>
+
+    <!-- Link to our Custom Brains (JavaScript) -->
+    <script src="script.js"></script>
+    
+</body>
+</html>
 
