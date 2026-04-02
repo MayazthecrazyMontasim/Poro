@@ -27,10 +27,17 @@
         </div>
     </div>
 
-    <!-- The desk (We hide the empty desk until a book is uploaded!) -->
+       <!-- The desk (We hide the desk completely until a book is uploaded!) -->
     <div id="desk" class="desk hidden">
-        <div id="book" class="book"></div>
+        
+        <!-- THE UX ENHANCEMENT: The Loader -->
+        <div id="loader" class="loader hidden">
+            <h2 id="loader-text">📖 Summoning your book...</h2>
+        </div>
+
+        <div id="book" class="book hidden"></div>
     </div>
+
 
     <script src="script.js"></script>
 </body>
