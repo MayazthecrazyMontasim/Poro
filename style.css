@@ -121,3 +121,36 @@ body, html {
 }
 
 .hidden { display: none !important; }
+/* --- LAYOUT FIX & UX UPGRADES --- */
+
+/* Fix the exploding canvas bug by enforcing Strict Walls */
+.book {
+    width: 900px; /* 450px left page + 450px right page */
+    height: 600px;
+    position: relative; /* Crucial for PageFlip physics */
+    margin: 0 auto; /* Keeps the book dead center */
+}
+
+.page {
+    /* Enforce the exact dimensions so the canvases cannot explode horizontally */
+    width: 450px !important; 
+    height: 600px !important;
+    position: absolute; /* Pages must be absolute so they can stack 3D on top of each other */
+}
+
+/* Ensure the canvas respects the physical paper */
+.page canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Prevents text from awkwardly squishing or stretching */
+}
+
+/* The Live Loading Tracker UX */
+.loader {
+    text-align: center;
+    color: #5c4d51;
+    font-size: 24px;
+    font-weight: 300;
+    transition: opacity 0.5s ease;
+}
+
