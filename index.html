@@ -13,27 +13,23 @@
 </head>
 <body>
 
-    <!-- 🌟 NEW: The Welcome Dashboard -->
+    <!-- 🌟 The Premium Dashboard Overlay -->
     <div id="dashboard" class="dashboard">
-        <div class="plaque">
-            <h1>The Grand Reading Room</h1>
-            <p>Select a tome from your archives to begin.</p>
+        <!-- The Parchment Drag & Drop Zone -->
+        <div id="drop-zone" class="parchment-drop-zone">
+            <h1>The Grand Archives</h1>
+            <p>Drag and drop a tome (.pdf) onto this parchment</p>
+            <p class="or-text">— or —</p>
             
-            <!-- We use a 'label' to create a beautiful, clickable button 
-                 that secretly triggers the ugly default file input! -->
-            <label for="file-upload" class="custom-upload-btn">
-                Open a Book
-            </label>
-            <!-- The actual input is hidden by CSS -->
-            <input id="file-upload" type="file" accept="application/pdf" />
+            <!-- Elegant Button Hook (Hides the ugly native button!) -->
+            <label for="file-upload" class="elegant-btn">Browse Archives</label>
+            <input id="file-upload" type="file" accept="application/pdf" style="display: none;" />
         </div>
     </div>
 
-    <!-- The desk (We hide the desk completely until a book is chosen!) -->
+    <!-- The desk (We hide the empty desk until a book is uploaded!) -->
     <div id="desk" class="desk hidden">
-        <div id="book" class="book">
-            <!-- Pages go here -->
-        </div>
+        <div id="book" class="book"></div>
     </div>
 
     <script src="script.js"></script>
