@@ -1,0 +1,57 @@
+/* style.css */
+
+/* 1. Resetting the Browser's "Default rules" */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 2. The Desk (Background) */
+body, html {
+    width: 100%;
+    height: 100%;
+    /* A deep, vintage brown/dark desk background using smooth gradients */
+    background: radial-gradient(circle at center, #3c2a1a 0%, #1a1005 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent scrolling, like a real app */
+}
+
+/* 3. The Book Object */
+.book {
+    /* Thick drop shadow to make the book pop out of the desk */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
+    border-radius: 5px; /* Slightly worn, rounded edges */
+}
+
+/* 4. The Paper Pages */
+.page {
+    background-color: #f4e4c1; /* Aged, yellowish paper color */
+    border: 1px solid #d3b88b;
+    overflow: hidden;
+    position: relative;
+}
+
+/* 5. The Book Spine (Shading exactly where pages fold) */
+.page.--left {
+    border-right: 0;
+    box-shadow: inset -15px 0 20px rgba(0,0,0,0.15); /* Shadow inside the fold on the left page */
+}
+.page.--right {
+    border-left: 0;
+    box-shadow: inset 15px 0 20px rgba(0,0,0,0.15); /* Shadow inside the fold on the right page */
+}
+
+/* 6. The PDF Ink (Magical Trick) */
+.page canvas {
+    width: 100%;
+    height: 100%;
+    /* 
+       This is a magic trick! By saying 'multiply', the white background of the PDF 
+       disappears, and the black text "melts" perfectly into our aged paper color 
+       like real ink. 
+    */
+    mix-blend-mode: multiply; 
+}
