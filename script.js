@@ -1,69 +1,126 @@
-// script.js
-// Make sure you upload a PDF to your Github named EXACTLY "sample.pdf"
-const PDF_URL = './sample.pdf';
+// script.js (Serverless Dashboard Version)
 
-// 1. Tell our Translator tool where to find its heavy machinery (required for PDF.js)
+// 1. Tell our Translator where its machinery is
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-// Setup our sound effect (Make sure you upload an audio file named 'sound.mp3'!)
+// Setup our chillhop sound effect
 const flipSound = new Audio('./sound.mp3'); 
 
-async function loadBook() {
-    const bookContainer = document.getElementById('book');
+// Grab our house elements
+const dashboard = document.getElementById('dashboard');
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-upload');
+const desk = document.getElementById('desk');
+const bookContainer = document.getElementById('book');
+
+// --- THE UI/UX DRAG AND DROP BRAINS ---
+
+// When a file is hovering over the zone, turn ON the gold CSS animations
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault(); // Stops the browser from accidentally opening the PDF as a new tab
+    dropZone.classList.add('drag-over');
+});
+
+// When the file is dragged away, turn OFF the animations
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('drag-over');
+});
+
+// When the file is DROPPED onto the parchment!
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
     
-    // 2. Open the PDF file, just like opening a real book
-    const loadingTask = pdfjsLib.getDocument(PDF_URL);
+    // Grab the physical file they dropped
+    const file = e.dataTransfer.files[0];
+    if (file && file.type === "application/pdf") {
+        readAndOpenBook(file); // Send it to the memory scanner
+    } else {
+        alert("Please drop a valid .pdf file!");
+    }
+});
+
+// If they clicked the Elegant Button instead of dragging
+fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === "application/pdf") {
+        readAndOpenBook(file);
+    }
+});
+
+// --- THE MEMORY SCANNER ---
+
+function readAndOpenBook(file) {
+    // 1. A FileReader acts like a digital scanner taking a picture of temporary memory
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+        // e.target.result contains the raw data (the DNA) of the PDF file
+        // We convert it into a simple format (Uint8Array) that PDF.js loves
+        const pdfData = new Uint8Array(e.target.result);
+        
+        // 2. Hide the dashboard!
+        dashboard.style.opacity = '0'; // Starts the 1.5s fade out animation
+        setTimeout(() => {
+            dashboard.classList.add('hidden'); // Fully removes it
+            desk.classList.remove('hidden');   // Turns on the desk lights
+        }, 1500); // Waits exactly 1.5 seconds for the fade to finish
+
+        // 3. Send the raw DNA data to our 3D engine!
+        await loadBookFromMemory(pdfData);
+    };
+
+    // Tell the scanner to start reading the file!
+    reader.readAsArrayBuffer(file);
+}
+
+// --- THE 3D PHYSICS ENGINE ---
+
+async function loadBookFromMemory(pdfData) {
+    // Tell PDF.js to open the DNA data directly, bypassing the network entirely!
+    const loadingTask = pdfjsLib.getDocument({data: pdfData});
     const pdf = await loadingTask.promise;
     
-    // Check how many pages our book has
     const totalPages = pdf.numPages;
 
-    // 3. Loop through every single page inside the PDF, one by one
-    for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-        // Grab the data for the current page
-        const page = await pdf.getPage(pageNum);
-        const viewport = page.getViewport({ scale: 1.5 }); // We scale it up so the text is crisp!
+    // Reset the wooden desk (in case they want to upload a 2nd book later)
+    bookContainer.innerHTML = '';
 
-        // Create a blank physical HTML box (our paper)
+    // Loop through every single page
+    for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const viewport = page.getViewport({ scale: 1.5 }); 
+
         const pageDiv = document.createElement('div');
         pageDiv.className = 'page';
         
-        // Create a blank digital canvas (Think of this as a blank digital chalkboard)
         const canvas = document.createElement('canvas');
         canvas.width = viewport.width;
         canvas.height = viewport.height;
         const context = canvas.getContext('2d');
 
-        // Command the PDF tool to "paint" the text onto our digital chalkboard
         await page.render({
             canvasContext: context,
             viewport: viewport
         }).promise;
 
-        // Stick the painted chalkboard onto our paper, and put the paper into the book!
         pageDiv.appendChild(canvas);
         bookContainer.appendChild(pageDiv);
     }
 
-    // 4. Activate the 3D Physics Engine!
-    // StPageFlip calculates exactly how the pages should bend when you drag them from the corner
+    // Activate the 3D Physics Engine!
     const pageFlip = new St.PageFlip(bookContainer, {
-        width: 450, // Width of one single page
-        height: 600, // Height of one single page
-        showCover: true, // Makes the first page act like a thick hardcover
-        usePortrait: false // Forces the book to always show TWO pages side-by-side
+        width: 450, 
+        height: 600, 
+        showCover: true, 
+        usePortrait: false 
     });
 
-    // Tell the physics engine to take complete control of all our newly created ".page" elements
     pageFlip.loadFromHTML(document.querySelectorAll('.page'));
 
-    // 5. The "Senses" (Audio)
-    // We tell the physics engine: "Listen closely. Whenever you detect a page flipping, do this block of code."
+    // The Senses (Audio)
     pageFlip.on('flip', (e) => {
-        flipSound.currentTime = 0; // Rewind the sound to the start (in case we flip pages quickly)
-        flipSound.play(); // Play the page-swish sound!
+        flipSound.currentTime = 0; 
+        flipSound.play(); 
     });
 }
-
-// Don't start drawing until the web browser is perfectly ready
-window.onload = loadBook;
