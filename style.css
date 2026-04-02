@@ -1,57 +1,123 @@
-/* style.css */
+/* style.css (Nujabes Lo-Fi Aesthetic) */
 
-/* 1. Resetting the Browser's "Default rules" */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* 2. The Desk (Background) */
+/* 1. The Room (A soft, warm watercolor sunrise) */
 body, html {
     width: 100%;
     height: 100%;
-    /* A deep, vintage brown/dark desk background using smooth gradients */
-    background: radial-gradient(circle at center, #3c2a1a 0%, #1a1005 100%);
+    /* Soft peach fading into warm pastel pink */
+    background: linear-gradient(135deg, #fdfbf7 0%, #fde4e4 100%);
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Prevent scrolling, like a real app */
+    overflow: hidden; 
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-/* 3. The Book Object */
+/* 2. The Dashboard Array */
+.dashboard {
+    position: absolute; 
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 1.5s ease-in-out; 
+}
+
+/* 3. The Lo-Fi Drop Zone (Glassmorphism!) */
+.parchment-drop-zone {
+    width: 600px;
+    padding: 60px;
+    /* Frosted glass effect: semi-transparent white */
+    background-color: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(10px); /* Blurs the background behind it! */
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    /* A very soft, airy pink shadow instead of heavy black */
+    box-shadow: 0 20px 40px rgba(230, 160, 170, 0.2); 
+    text-align: center;
+    color: #5c4d51; /* Soft, warm grey */
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.parchment-drop-zone h1 { 
+    margin-bottom: 20px; 
+    font-size: 32px; 
+    font-weight: 300; 
+    letter-spacing: 2px;
+}
+.parchment-drop-zone p { 
+    font-size: 16px; 
+    margin-bottom: 20px; 
+    font-weight: 300;
+    color: #8c7a7e;
+}
+
+/* 4. The Interactive Hover Effect */
+.parchment-drop-zone.drag-over {
+    transform: scale(1.03) translateY(-5px); /* Floats up gently like an anime leaf */
+    background-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 30px 60px rgba(230, 160, 170, 0.4);
+    border-color: #ffb6c1; /* Soft cherry blossom pink border */
+}
+
+/* 5. The Elegant Button */
+.elegant-btn {
+    display: inline-block;
+    padding: 12px 36px;
+    background: rgba(255, 182, 193, 0.3); /* Pastel Pink */
+    color: #d16b7b;
+    border: 1px solid rgba(255, 182, 193, 0.8);
+    border-radius: 30px; /* Smooth rounded button */
+    cursor: pointer;
+    font-size: 15px;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+.elegant-btn:hover { 
+    background: #ffb6c1; 
+    color: white;
+    box-shadow: 0 10px 20px rgba(255, 182, 193, 0.5);
+}
+
+/* 6. The Book Styling */
 .book {
-    /* Thick drop shadow to make the book pop out of the desk */
-    box-shadow: 0 20px 50px rgba(0,0,0,0.8); 
-    border-radius: 5px; /* Slightly worn, rounded edges */
+    box-shadow: 0 20px 50px rgba(200, 160, 160, 0.3); 
+    border-radius: 2px; 
 }
-
-/* 4. The Paper Pages */
 .page {
-    background-color: #f4e4c1; /* Aged, yellowish paper color */
-    border: 1px solid #d3b88b;
+    background-color: #fffaf5; /* Clean warm off-white, no heavy yellow */
+    border: 1px solid #f0e6dd;
     overflow: hidden;
     position: relative;
 }
-
-/* 5. The Book Spine (Shading exactly where pages fold) */
 .page.--left {
     border-right: 0;
-    box-shadow: inset -15px 0 20px rgba(0,0,0,0.15); /* Shadow inside the fold on the left page */
+    box-shadow: inset -10px 0 20px rgba(0,0,0,0.03); 
 }
 .page.--right {
     border-left: 0;
-    box-shadow: inset 15px 0 20px rgba(0,0,0,0.15); /* Shadow inside the fold on the right page */
+    box-shadow: inset 10px 0 20px rgba(0,0,0,0.03); 
 }
-
-/* 6. The PDF Ink (Magical Trick) */
 .page canvas {
     width: 100%;
     height: 100%;
-    /* 
-       This is a magic trick! By saying 'multiply', the white background of the PDF 
-       disappears, and the black text "melts" perfectly into our aged paper color 
-       like real ink. 
-    */
     mix-blend-mode: multiply; 
 }
+
+.desk {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.hidden { display: none !important; }
