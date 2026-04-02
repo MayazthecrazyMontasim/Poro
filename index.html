@@ -4,31 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vintage PDF Reader</title>
-    
-    <!-- 1. Link to our Custom Vintage Paint (CSS) -->
     <link rel="stylesheet" href="style.css">
     
-    <!-- 2. The Translator: PDF.js (Reads the PDF file) -->
+    <!-- The Translator: PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    
-    <!-- 3. The Physics Engine: StPageFlip (Handles the 3D flipping math) -->
+    <!-- The Physics Engine: StPageFlip -->
     <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
 </head>
 <body>
 
-    <!-- This is the wooden desk our book sits on -->
-    <div class="desk">
-        
-        <!-- This is the actual Book object. -->
-        <div id="book" class="book">
-            <!-- JavaScript will magically draw our PDF pages in here! -->
+    <!-- 🌟 NEW: The Welcome Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <div class="plaque">
+            <h1>The Grand Reading Room</h1>
+            <p>Select a tome from your archives to begin.</p>
+            
+            <!-- We use a 'label' to create a beautiful, clickable button 
+                 that secretly triggers the ugly default file input! -->
+            <label for="file-upload" class="custom-upload-btn">
+                Open a Book
+            </label>
+            <!-- The actual input is hidden by CSS -->
+            <input id="file-upload" type="file" accept="application/pdf" />
         </div>
-
     </div>
 
-    <!-- Link to our Custom Brains (JavaScript) -->
+    <!-- The desk (We hide the desk completely until a book is chosen!) -->
+    <div id="desk" class="desk hidden">
+        <div id="book" class="book">
+            <!-- Pages go here -->
+        </div>
+    </div>
+
     <script src="script.js"></script>
-    
 </body>
 </html>
-
